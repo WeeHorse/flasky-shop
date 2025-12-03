@@ -103,7 +103,9 @@ def get_products():
                 "id": row.id,
                 "name": row.name,
                 "price": row.price,
-                "stock": row.stock
+                "stock": row.stock,
+                "currency": row.currency,
+                "vat": row.vat
             } for row in result
         ]
 
@@ -125,7 +127,9 @@ def get_product(product_id):
             "id": result.id,
             "name": result.name,
             "price": result.price,
-            "stock": result.stock
+            "stock": result.stock,
+            "currency": result.currency,
+            "vat": result.vat
         }
 
     return jsonify(product), 200
@@ -388,6 +392,24 @@ def remove_from_cart():
         db.commit()
 
     return jsonify({"message": "Cart updated."}), 200
+
+# - VATS
+
+@app.get('/vats')
+@login_required
+def get_vats():
+    with Session() as db:
+        result = db.execute(text("SELECT * FROM vats")).fetchall()
+        vats_list = [
+            {
+                "id": row.id,
+                "description": row.description,
+                "amount": row.amount,
+                "region": row.region
+            } for row in result
+        ]
+
+    return jsonify(vats_list), 200
 
 
 if __name__ == "__main__":
