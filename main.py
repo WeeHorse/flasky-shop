@@ -411,6 +411,51 @@ def get_vats():
 
     return jsonify(vats_list), 200
 
+@app.post('/vats')
+@login_required
+def create_vats():
+    data = request.get_json() or {}
+    description = data.get("description")
+    amount = data.get("amount")
+    region = data.get("region")
+
+    if not description or amount is None or not region:
+        return jsonify({"message": "Please provide all required fields: description, amount, region."}), 400
+
+    with Session() as db:
+        db.execute(
+            text("""
+                INSERT INTO vats (description, amount, region)
+                VALUES (:description, :amount, :region)
+            """),
+            {"description": description, "amount": amount, "region": region}
+        )
+        db.commit()
+
+    return jsonify({"message": f"vats '{description}' was created successfully."}), 201
+
+@app.put('/vats/<int:vat_id>')  # localhost:5000/vats/14
+@login_required
+def update_vats(vat_id):
+    data = request.get_json() or {}
+    description = data.get("description")
+    amount = data.get("amount")
+    region = data.get("region")
+
+    if not description or amount is None or not region:
+        return jsonify({"message": "Please provide all required fields: description, amount, region."}), 400
+
+    with Session() as db:
+        db.execute(
+            text("""
+                UPDATE vats SET description = :description, amount = :amount, region = :region
+                WHERE id = :id
+            """),
+            {"description": description, "amount": amount, "region": region, "id": vat_id}
+        )
+        db.commit()
+
+    return jsonify({"message": f"vats '{description}' was updated successfully."}), 201
 
 if __name__ == "__main__":
     app.run(debug=True)
