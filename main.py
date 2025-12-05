@@ -146,17 +146,19 @@ def create_product():
     name = data.get("name")
     price = data.get("price")
     stock = data.get("stock")
+    currency = data.get("currency")
+    vat = data.get("vat")
 
-    if not name or price is None or stock is None:
-        return jsonify({"message": "Please provide all required fields: name, price, stock."}), 400
+    if not name or price is None or stock is None or currency is None or vat is None:
+        return jsonify({"message": "Please provide all required fields: name, price, stock, currency, vat"}), 400
 
     with Session() as db:
         db.execute(
             text("""
-                INSERT INTO product (name, price, stock)
-                VALUES (:name, :price, :stock)
+                INSERT INTO product (name, price, stock, currency, vat)
+                VALUES (:name, :price, :stock, :currency, :vat)
             """),
-            {"name": name, "price": price, "stock": stock}
+            {"name": name, "price": price, "stock": stock, "currency": currency, "vat": vat}
         )
         db.commit()
 
