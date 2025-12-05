@@ -3,9 +3,9 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import text
 from dataclasses import asdict
 
-from db import SessionLocal
+from utilities.db import SessionLocal
 from models.vat import Vat
-from auth_utils import login_required
+from utilities.auth_utils import login_required
 
 vats_bp = Blueprint("vats", __name__)
 

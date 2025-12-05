@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request, session
 from sqlalchemy import text
 from dataclasses import asdict
 
-from db import SessionLocal
+from utilities.db import SessionLocal
 from models.user import User
 
 auth_bp = Blueprint("auth", __name__)

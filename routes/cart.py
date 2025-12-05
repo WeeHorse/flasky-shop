@@ -3,9 +3,9 @@ from flask import Blueprint, jsonify, request, session
 from sqlalchemy import text
 from dataclasses import asdict
 
-from db import SessionLocal
+from utilities.db import SessionLocal
 from models.cart import CartItem
-from auth_utils import login_required
+from utilities.auth_utils import login_required
 
 cart_bp = Blueprint("cart", __name__)
 
