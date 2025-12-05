@@ -67,6 +67,7 @@ DB_DATABASE=my_app_db
 3. `main.py` loads the `.env` on startup:
 
    ```python
+   import os
    from dotenv import load_dotenv
    load_dotenv()
    ```
